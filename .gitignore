@@ -1,0 +1,16 @@
+data/
+root_ca/
+
+*.crt
+*.csr
+*.der
+*.hclic
+*.json
+*.pem
+*.txt
+*.zip
+
+config-hsm.hcl
+token
+vault
+vault.lic

@@ -1,0 +1,91 @@
+[ ca ]
+default_ca = CA_default
+
+[ CA_default ]
+dir               = .
+certs             = $dir/certs
+crl_dir           = $dir/crl
+new_certs_dir     = $dir/newcerts
+database          = $dir/index.txt
+serial            = $dir/serial
+RANDFILE          = $dir/private/.rand
+private_key       = $dir/private/ext_intermediate.key.pem
+certificate       = $dir/certs/ext_intermediate.pem
+crlnumber         = $dir/crlnumber
+crl               = $dir/crl/ext_intermediate.crl.pem
+crl_extensions    = crl_ext
+default_crl_days  = 730
+
+default_md        = sha256
+
+name_opt          = ca_default
+cert_opt          = ca_default
+default_days      = 375
+preserve          = no
+policy            = policy_strict
+
+[ policy_strict ]
+countryName            = optional
+stateOrProvinceName    = optional
+localityName           = optional
+organizationName       = optional
+organizationalUnitName = optional
+commonName             = supplied
+emailAddress           = optional
+
+[ req ]
+prompt                 = no
+string_mask            = utf8only
+default_bits           = 2048
+default_md             = sha256
+distinguished_name     = req_distinguished_name
+x509_extensions        = v3_ca
+
+[ req_distinguished_name ]
+countryName            = GB
+stateOrProvinceName    = London
+localityName           = London
+0.organizationName     = ExampleCorp
+organizationalUnitName = Security
+commonName             = ExampleCorp External Intermediate CA
+
+[ v3_ca ]
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid:always,issuer
+basicConstraints       = critical, CA:true
+keyUsage               = critical, digitalSignature, cRLSign, keyCertSign
+extendedKeyUsage       = serverAuth
+crlDistributionPoints  = @crl_section
+authorityInfoAccess    = @ocsp_section
+
+[ v3_intermediate_ca ]
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid:always,issuer
+basicConstraints       = critical, CA:true, pathlen:2
+keyUsage               = critical, digitalSignature, cRLSign, keyCertSign
+authorityInfoAccess    = @ocsp_section
+crlDistributionPoints  = @crl_section
+
+[ crl_ext ]
+authorityKeyIdentifier = keyid:always
+issuerAltName          = issuer:copy 
+
+[ ocsp ]
+basicConstraints       = CA:FALSE
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid, issuer
+keyUsage               = critical, digitalSignature
+extendedKeyUsage       = critical, OCSPSigning
+
+[alt_names]
+DNS.0 = ExampleCorp Intermediate CA 1
+DNS.1 = ExampleCorp CA Intermediate 1
+
+[crl_section]
+URI.0 = http://pki.example.local/ExampleCorpRoot.crl
+
+[ocsp_section]
+caIssuers;URI.0 = http://pki.example.local/ExampleCorpRoot.crt
+caIssuers;URI.1 = http://pki-backup.example.local/ExampleCorpRoot.crt
+OCSP;URI.0 = http://pki.pki.example.local/ocsp/
+OCSP;URI.1 = http://pki-backup.pki.example.local/ocsp/
