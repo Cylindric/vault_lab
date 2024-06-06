@@ -24,9 +24,9 @@ if [ -f "init.json" ]; then
 fi
 if [ ! -f "vault" ]; then
      if [ "$VAULT_ENTERPRISE" -eq 1 ]; then
-          wget 'https://releases.hashicorp.com/vault/1.13.1+ent.hsm/vault_1.13.1+ent.hsm_linux_amd64.zip'
+          wget 'https://releases.hashicorp.com/vault/1.14.2+ent.hsm/vault_1.14.2+ent.hsm_linux_amd64.zip'
      else
-          wget 'https://releases.hashicorp.com/vault/1.13.1/vault_1.13.1_linux_amd64.zip'
+          wget 'https://releases.hashicorp.com/vault/1.14.2/vault_1.14.2_linux_amd64.zip'
      fi
      unzip vault*.zip
 fi

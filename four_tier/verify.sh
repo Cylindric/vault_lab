@@ -139,7 +139,7 @@ wget --quiet --output-document="issuing-chain.pem" $base_url/$vault_issuing_engi
 
 title_msg "Check that Issuing CA was signed by Intermediate CA..."
 echo Issuing CA $(openssl x509 -noout -text -in issuing.pem | grep 'Issuer:')
-# openssl verify -CAfile $ext_intermediate_pem $VAULT_ISSUING_CA
+# openssl verify -CAfile $ext_intermediate_pem $vault_issuing_pem
 
 # title_msg "Check that Test was signed by Issuing...\e[0m"
 # openssl verify -CAfile $VAULT_ISSUING_CA $TEST_CERT

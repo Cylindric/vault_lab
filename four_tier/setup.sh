@@ -174,6 +174,8 @@ vault write -field=csr $vault_intermediate_engine_name/intermediate/generate/int
 # This is usually done by a central external CA team, so the details of this step aren't particulary relevant.
 cd $ext_intermediate_ca_path
 openssl ca -batch -config openssl.cnf -extensions v3_intermediate_ca -days 365 -notext -in $vault_intermediate_csr -passin pass:intermediatepass -out certs/signed.pem
+
+# Create the External Intermediate CA's CRL
 openssl ca -config openssl.cnf -gencrl -passin pass:intermediatepass -cert $ext_intermediate_pem -out $ext_intermediate_crl_pem
 openssl crl -inform PEM -in $ext_intermediate_crl_pem -outform DER -out $ext_intermediate_crl
 cat $ext_intermediate_chain $ext_intermediate_crl_pem > $ext_intermediate_crl_chain
