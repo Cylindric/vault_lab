@@ -4,7 +4,7 @@
 # CLEANUP
 ###############################################################################
 killall vault
-rm -rf data root_ca
+rm -rf data root_ca tests
 rm -f *.json *.crt *.csr *.der *.pem *.zip
 rm -f EULA.txt TermsOfEvaluation.txt token
 
