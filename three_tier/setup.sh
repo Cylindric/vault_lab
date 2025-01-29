@@ -218,14 +218,17 @@ vault write -namespace "$namespace" $issuing_engine_name/config/urls \
 # TEST
 ###############################################################################
 echo "\e[34mCreating a test certificate\e[0m"
+if [ ! -d "./tests" ]; then
+    mkdir ./tests
+fi
 
 vault write -format=json -namespace "$namespace" $issuing_engine_name/issue/$issuing_role \
      common_name="test.example.com" ttl="4h" \
-     > test.json
+     > ./tests/test.json
 
-cat test.json | jq -r '.data.certificate' > test.pem
-cat test.json | jq -r '.data.issuing_ca' >> test.pem
-cat test.json | jq -r '.data.private_key' > test-key.pem
+cat ./tests/test.json | jq -r '.data.certificate' > ./tests/test.pem
+cat ./tests/test.json | jq -r '.data.issuing_ca' >> ./tests/test.pem
+cat ./tests/test.json | jq -r '.data.private_key' > ./tests/test-key.pem
 
 ###############################################################################
 # END
