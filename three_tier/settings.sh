@@ -19,8 +19,8 @@ fi
 
 # Make sure we have the correct binary
 if [ -f "vault" ]; then
-    version=$(./vault --version | grep '-ent')
-    if [ "$?" -eq 1 ]; then
+    version=$(./vault --version | { grep '-ent' || true; })
+    if [ -z "$version" ]; then
         if [ "$VAULT_ENTERPRISE" -eq 1 ]; then
             echo "Enterprise was expected but Community found, removing incorrect binary"
             rm vault
